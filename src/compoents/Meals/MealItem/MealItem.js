@@ -1,0 +1,34 @@
+import { Fragment, useContext } from "react";
+import CartContext from "../../../store/cart-context";
+import classes from "./MealItem.module.css";
+import MealItemForm from "./MealItemForm";
+
+const MealItem = (props) => {
+  const cartCtx = useContext(CartContext);
+  const price = `$${props.price.toFixed(2)}`;
+  //am salvat in price  ce avem trecut la price din AvailableMeals si cu fixed sa vina cu 2 decimale
+
+  //utilizam functia sa adaugam la additem din cartPRovider proprietatile care unele le obtinem din MealItemFRom
+  const addToCartHandler = (amount) => {
+    cartCtx.addItem({
+      id: props.id,
+      name: props.name,
+      amount: amount,
+      price: props.price,
+    });
+  };
+  return (
+    <li className={classes.meal}>
+      <div>
+        <h3>{props.name} </h3>
+        <div className={classes.description}>{props.description}</div>
+        <div className={classes.price}>{price}</div>
+      </div>
+      <div>
+        <MealItemForm id={props.id} onAddToCart={addToCartHandler} />
+      </div>
+    </li>
+  );
+};
+
+export default MealItem;
